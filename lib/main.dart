@@ -35,15 +35,15 @@ Future<void> main() async {
             textTheme: TextTheme(
               headline1: TextStyle(
                 color: AppColors.black,
-                fontSize: 22,
+                fontSize: 24,
               ),
               headline2: TextStyle(
                 color: AppColors.black,
-                fontSize: 18,
+                fontSize: 20,
               ),
               headline3: TextStyle(
                 color: AppColors.grey,
-                fontSize: 15.5,
+                fontSize: 16,
               ),
             ),
           ),
@@ -55,14 +55,9 @@ Future<void> main() async {
       print('<<----------STACK TRACE--------->> \n$stackTrace');
       Get.defaultDialog(
         title: AppErrors.errorOccurred,
-        titleStyle: Get.textTheme.headline2!.copyWith(
-          color: AppColors.black,
-          fontSize: 22,
-        ),
+        titleStyle: Get.textTheme.headline2,
         middleText: AppErrors.unknownErrorDetails,
-        middleTextStyle: Get.textTheme.subtitle1!.copyWith(
-          color: AppColors.grey,
-        ),
+        middleTextStyle: Get.textTheme.headline3,
         textConfirm: AppStrings.goBack.toUpperCase(),
         confirmTextColor: AppColors.white,
         radius: 5,
