@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import 'package:zartek/app/modules/checkout/bindings/checkout_binding.dart';
+import 'package:zartek/app/modules/checkout/views/checkout_view.dart';
 import 'package:zartek/app/modules/home/bindings/home_binding.dart';
 import 'package:zartek/app/modules/home/views/home_view.dart';
 import 'package:zartek/app/modules/login/bindings/login_binding.dart';
@@ -36,6 +38,11 @@ class AppPages {
       name: _Paths.SPLASH,
       page: () => SplashView(),
       binding: SplashBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHECKOUT,
+      page: () => CheckoutView(),
+      binding: CheckoutBinding(),
     ),
   ];
 }
