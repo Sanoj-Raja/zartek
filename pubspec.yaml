@@ -1,15 +1,20 @@
 name: zartek
 version: 1.0.0+1
 publish_to: none
-description: A new Flutter project.
+description: Flutter project for Zartek Technologies.
 environment: 
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies: 
-  cupertino_icons: ^1.0.2
-  get: 4.3.8
   flutter: 
     sdk: flutter
+  cupertino_icons: ^1.0.2
+  get: 4.1.4
+  bot_toast: ^4.0.1
+  get_storage: ^2.0.3
+  intl: ^0.17.0
+  connectivity_plus: ^1.0.1
+  internet_connection_checker: ^0.0.1+2
 
 dev_dependencies: 
   flutter_test: 
@@ -17,4 +22,6 @@ dev_dependencies:
 
 flutter: 
   uses-material-design: true
+  assets:
+    - assets/
 
