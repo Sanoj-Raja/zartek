@@ -22,10 +22,13 @@ class CheckoutView extends GetView<CheckoutController> {
             color: AppColors.grey,
           ),
         ),
-        leading: Icon(
-          Icons.arrow_back,
-          size: 25,
-          color: AppColors.grey,
+        leading: IconButton(
+          onPressed: Get.back,
+          icon: Icon(
+            Icons.arrow_back,
+            size: 25,
+            color: AppColors.grey.withOpacity(.7),
+          ),
         ),
         centerTitle: false,
       ),
