@@ -24,7 +24,7 @@ class CheckoutView extends GetView<CheckoutController> {
         ),
         leading: Icon(
           Icons.arrow_back,
-          size: 30,
+          size: 25,
           color: AppColors.grey,
         ),
         centerTitle: false,
