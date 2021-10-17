@@ -22,12 +22,12 @@ class HomeView extends GetView<HomeController> {
         appBar: AppBar(
           elevation: 0,
           actions: <Widget>[
-            Obx(
-              () => Badge(
-                position: BadgePosition.topEnd(top: 5, end: 15),
-                animationDuration: Duration(milliseconds: 300),
-                animationType: BadgeAnimationType.slide,
-                badgeContent: Text(
+            Badge(
+              position: BadgePosition.topEnd(top: 5, end: 15),
+              animationDuration: Duration(milliseconds: 300),
+              animationType: BadgeAnimationType.slide,
+              badgeContent: Obx(
+                () => Text(
                   controller.itemInCart.value > 9
                       ? '9+'
                       : controller.itemInCart.value.toString(),
@@ -36,15 +36,15 @@ class HomeView extends GetView<HomeController> {
                     fontSize: 12,
                   ),
                 ),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.shopping_cart,
-                    size: 30,
-                    color: AppColors.grey,
-                  ),
-                  padding: EdgeInsets.only(right: 30.0),
-                  onPressed: controller.goToCart,
+              ),
+              child: IconButton(
+                icon: Icon(
+                  Icons.shopping_cart,
+                  size: 30,
+                  color: AppColors.grey,
                 ),
+                padding: EdgeInsets.only(right: 30.0),
+                onPressed: controller.goToCart,
               ),
             ),
           ],
@@ -54,46 +54,60 @@ class HomeView extends GetView<HomeController> {
             children: [
               Container(
                 height: 40,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 5,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: Container(
-                        width: Get.width * .4,
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              width: 3,
-                              color: index == 0
-                                  ? Color(0xFFF06292)
-                                  : AppColors.white,
-                            ),
-                          ),
-                        ),
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
-                            child: Container(
-                              width: Get.width * .35,
-                              child: Text(
-                                'Food Category ${index + 1}',
-                                style: Get.textTheme.headline3!.copyWith(
-                                  color: index == 0
-                                      ? Color(0xFFF06292)
-                                      : AppColors.grey,
-                                  fontWeight: FontWeight.w600,
+                child: Obx(
+                  () => ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: controller.tableMenuList.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: InkWell(
+                          onTap: () {
+                            controller.changeSelectedMenuCategory(index);
+                          },
+                          child: Obx(
+                            () => Container(
+                              width: Get.width * .4,
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    width: 3,
+                                    color: index ==
+                                            controller
+                                                .selectedMenuCategory.value
+                                        ? Color(0xFFF06292)
+                                        : AppColors.white,
+                                  ),
                                 ),
-                                overflow: TextOverflow.ellipsis,
+                              ),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 12),
+                                  child: Container(
+                                    width: Get.width * .35,
+                                    child: Text(
+                                      controller
+                                          .tableMenuList[index].menuCategory!,
+                                      style: Get.textTheme.headline3!.copyWith(
+                                        color: index ==
+                                                controller
+                                                    .selectedMenuCategory.value
+                                            ? Color(0xFFF06292)
+                                            : AppColors.grey,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
               Expanded(
@@ -107,13 +121,26 @@ class HomeView extends GetView<HomeController> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: 6,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return HomeFoodCard();
-                        },
+                      child: Obx(
+                        () => controller.tableMenuList.length > 0
+                            ? ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: controller
+                                    .tableMenuList[
+                                        controller.selectedMenuCategory.value]
+                                    .categoryDishes!
+                                    .length,
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return HomeFoodCard(
+                                    dishDetails: controller
+                                        .tableMenuList[controller
+                                            .selectedMenuCategory.value]
+                                        .categoryDishes![index],
+                                  );
+                                },
+                              )
+                            : Container(),
                       ),
                     ),
                   ),

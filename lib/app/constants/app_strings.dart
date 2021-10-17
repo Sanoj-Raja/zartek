@@ -7,5 +7,8 @@ class AppStrings {
   static const String orderSummary = 'Order Summary';
   static const String totalAmount = 'Total Amount';
   static const String inr = 'INR';
+  static const String calories = 'Calories';
   static const String customizationAvailable = 'Customization Available';
+
+
 }

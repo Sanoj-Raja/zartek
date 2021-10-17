@@ -6,6 +6,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:zartek/app/constants/api_constants.dart';
 import 'package:zartek/app/constants/app_colors.dart';
 import 'package:zartek/app/constants/app_errors.dart';
+import 'package:zartek/app/utils/loader.dart';
 import 'base_api_helper.dart';
 import 'package:get/get.dart';
 
@@ -17,6 +18,7 @@ class ApiHelper extends GetConnect with BaseApiHelper {
 
     httpClient.addRequestModifier(
       (Request<dynamic> request) async {
+        Loader().showLoadingWidget();
         RxBool isFirstTryDone = false.obs;
         RxBool isInternetAvailable = false.obs;
 

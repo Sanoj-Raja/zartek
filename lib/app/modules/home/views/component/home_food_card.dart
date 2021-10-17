@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zartek/app/constants/app_colors.dart';
 import 'package:zartek/app/constants/app_strings.dart';
+import 'package:zartek/app/models/get_foods_response.dart';
 import 'package:zartek/app/widgets/add_to_cart_button.dart';
 import 'package:zartek/app/widgets/image_box.dart';
 import 'package:zartek/app/widgets/veg_indicator.dart';
 
 class HomeFoodCard extends StatelessWidget {
-  const HomeFoodCard({Key? key}) : super(key: key);
+  final CategoryDishes dishDetails;
+  const HomeFoodCard({Key? key, required this.dishDetails}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class HomeFoodCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ImageBox(
-                    imageUrl: '',
+                    imageUrl: dishDetails.dishImage!,
                     imageContainerSize: 65,
                     borderColor: Colors.transparent,
                   ),
@@ -39,7 +41,7 @@ class HomeFoodCard extends StatelessWidget {
                       Container(
                         width: Get.width * .55,
                         child: Text(
-                          'Dish Name: Gobi Manchurian with Dry Salad',
+                          dishDetails.dishName!,
                           style: Get.textTheme.headline2!.copyWith(
                             fontSize: 18,
                           ),
@@ -53,7 +55,7 @@ class HomeFoodCard extends StatelessWidget {
                       Container(
                         width: Get.width * .55,
                         child: Text(
-                          '320 Calories',
+                          '${dishDetails.dishCalories} ${AppStrings.calories}',
                           style: Get.textTheme.headline3!.copyWith(
                             color: AppColors.black,
                           ),
@@ -65,7 +67,9 @@ class HomeFoodCard extends StatelessWidget {
                   ),
                 ],
               ),
-              VegIndicatior(),
+              VegIndicatior(
+                isVegetarian: dishDetails.dishType == 2,
+              ),
             ],
           ),
           SizedBox(
@@ -74,7 +78,7 @@ class HomeFoodCard extends StatelessWidget {
           Container(
             width: Get.width,
             child: Text(
-              'Order food online from restaurants get it delivered. Serving in Delhi. Order Pizzas, Burgers, Biryanis & Desserts from to resturants.',
+              dishDetails.dishDescription!,
               style: Get.textTheme.headline3!.copyWith(
                 fontSize: 14,
               ),
@@ -94,7 +98,7 @@ class HomeFoodCard extends StatelessWidget {
                 children: [
                   Container(
                     child: Text(
-                      '${AppStrings.inr} 320.00',
+                      '${AppStrings.inr} ${dishDetails.dishPrice}',
                       style: Get.textTheme.headline3!.copyWith(
                         color: AppColors.black,
                       ),
@@ -105,16 +109,17 @@ class HomeFoodCard extends StatelessWidget {
                   SizedBox(
                     height: 3,
                   ),
-                  Container(
-                    child: Text(
-                      AppStrings.customizationAvailable,
-                      style: Get.textTheme.headline3!.copyWith(
-                        color: Color(0xFFF06292),
+                  if (dishDetails.addonCat!.length > 0)
+                    Container(
+                      child: Text(
+                        AppStrings.customizationAvailable,
+                        style: Get.textTheme.headline3!.copyWith(
+                          color: Color(0xFFF06292),
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
                     ),
-                  ),
                 ],
               ),
               AddToCartButton(),

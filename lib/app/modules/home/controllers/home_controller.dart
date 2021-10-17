@@ -4,7 +4,8 @@ import 'package:zartek/app/routes/app_pages.dart';
 import 'package:zartek/app/services/api_helper.dart';
 
 class HomeController extends GetxController {
-  RxInt itemInCart = 0.obs;
+  RxInt selectedMenuCategory = 0.obs;
+  RxInt itemInCart = 1.obs;
   RxList<TableMenuList> tableMenuList = <TableMenuList>[].obs;
   final apiHelper = Get.find<ApiHelper>();
 
@@ -36,5 +37,9 @@ class HomeController extends GetxController {
         }
       },
     );
+  }
+
+  void changeSelectedMenuCategory(int newSelectedIndex) {
+    selectedMenuCategory.value = newSelectedIndex;
   }
 }
