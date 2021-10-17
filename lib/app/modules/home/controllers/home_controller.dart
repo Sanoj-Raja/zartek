@@ -31,7 +31,7 @@ class HomeController extends GetxController {
       (response) {
         if (response.status.isOk) {
           GetFoodsResponse allFoodsData =
-              GetFoodsResponse.fromJson(response.body);
+              GetFoodsResponse.fromJson(response.body[0]);
           tableMenuList.value = allFoodsData.tableMenuList!;
         }
       },
