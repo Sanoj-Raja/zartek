@@ -4,14 +4,12 @@ import 'package:zartek/app/constants/app_colors.dart';
 class ImageBox extends StatelessWidget {
   final String imageUrl;
   final double imageContainerSize;
-  final double personIconsSize;
   final Color borderColor;
   final double? containerBorderWidth;
   const ImageBox({
     Key? key,
     required this.imageUrl,
     required this.imageContainerSize,
-    required this.personIconsSize,
     required this.borderColor,
     this.containerBorderWidth,
   }) : super(key: key);
@@ -22,7 +20,7 @@ class ImageBox extends StatelessWidget {
       height: imageContainerSize,
       width: imageContainerSize,
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
+        shape: BoxShape.rectangle,
         color: AppColors.darkBlue,
         border: Border.all(
           color: borderColor,
@@ -36,9 +34,9 @@ class ImageBox extends StatelessWidget {
           fit: BoxFit.cover,
           errorBuilder: (_, __, ___) {
             return Icon(
-              Icons.person,
-              color: AppColors.lightBlue,
-              size: personIconsSize,
+              Icons.error,
+              color: AppColors.white,
+              size: imageContainerSize * .9,
             );
           },
         ),

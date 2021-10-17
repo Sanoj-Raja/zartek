@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:zartek/app/constants/app_colors.dart';
 import 'package:zartek/app/widgets/custom_drawer.dart';
 import '../controllers/home_controller.dart';
+import 'component/home_food_card.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
@@ -49,11 +50,76 @@ class HomeView extends GetView<HomeController> {
           ],
         ),
         body: SafeArea(
-          child: Center(
-            child: Text(
-              'HomeView is working',
-              style: TextStyle(fontSize: 20),
-            ),
+          child: Column(
+            children: [
+              Container(
+                height: 40,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 5,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Container(
+                        width: Get.width * .4,
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              width: 3,
+                              color: index == 0
+                                  ? Color(0xFFF06292)
+                                  : AppColors.white,
+                            ),
+                          ),
+                        ),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 12),
+                            child: Container(
+                              width: Get.width * .35,
+                              child: Text(
+                                'Food Category ${index + 1}',
+                                style: Get.textTheme.headline3!.copyWith(
+                                  color: index == 0
+                                      ? Color(0xFFF06292)
+                                      : AppColors.grey,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 0,
+                      left: 10,
+                      right: 10,
+                      bottom: 60,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: 6,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return HomeFoodCard();
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

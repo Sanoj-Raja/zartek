@@ -32,7 +32,6 @@ class CustomDrawer extends StatelessWidget {
                   ImageBox(
                     imageUrl: '',
                     imageContainerSize: 60,
-                    personIconsSize: 55,
                     borderColor: Colors.transparent,
                   ),
                   Padding(
