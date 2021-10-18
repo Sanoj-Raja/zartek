@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zartek/app/constants/app_colors.dart';
 import 'package:zartek/app/constants/app_strings.dart';
+import 'package:zartek/app/models/get_foods_response.dart';
+import 'package:zartek/app/widgets/add_to_cart_button.dart';
 import 'package:zartek/app/widgets/veg_indicator.dart';
 
 class SelectedDishCard extends StatelessWidget {
-  const SelectedDishCard({Key? key}) : super(key: key);
+  final CategoryDishes dish;
+  const SelectedDishCard({Key? key, required this.dish}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,7 @@ class SelectedDishCard extends StatelessWidget {
               Container(
                 width: Get.width * .7,
                 child: Text(
-                  'Dish Name: Gobi Manchurian with Dry Salad',
+                  dish.dishName!,
                   style: Get.textTheme.headline2!.copyWith(
                     fontSize: 19,
                   ),
@@ -31,7 +34,9 @@ class SelectedDishCard extends StatelessWidget {
                   maxLines: 2,
                 ),
               ),
-              VegIndicatior(),
+              VegIndicatior(
+                isVegetarian: dish.dishType == 2,
+              ),
             ],
           ),
           SizedBox(
@@ -46,7 +51,7 @@ class SelectedDishCard extends StatelessWidget {
                   Container(
                     width: Get.width * .35,
                     child: Text(
-                      '320 Calories',
+                      '${dish.dishCalories} Calories',
                       style: Get.textTheme.headline3!.copyWith(
                         color: AppColors.black,
                       ),
@@ -58,14 +63,14 @@ class SelectedDishCard extends StatelessWidget {
                     height: 6,
                   ),
                   Text(
-                    '${AppStrings.inr} 60.00',
+                    '${AppStrings.inr} ${dish.dishPrice}',
                     style: Get.textTheme.headline3!.copyWith(
                       color: AppColors.black,
                     ),
                   ),
                 ],
               ),
-              // AddToCartButton(),
+              AddToCartButton(dish: dish),
             ],
           ),
           SizedBox(
