@@ -35,14 +35,18 @@ class CartSessionManager {
   }
 
   static Future<void> deleteItemFromCart(CategoryDishes dish) async {
-    ITEMS_IN_CART.remove(dish);
+    ITEMS_IN_CART.removeAt(
+      ITEMS_IN_CART.indexWhere(
+        (dishInCart) => dishInCart.dishId == dish.dishId,
+      ),
+    );
 
     List itemsInCart = [];
     for (CategoryDishes item in ITEMS_IN_CART) {
       itemsInCart.add(item.toJson());
     }
 
-    cartStorage.write(cart, ITEMS_IN_CART);
+    cartStorage.write(cart, itemsInCart);
     print("Item deleted from Cart ==> $dish.");
   }
 
@@ -50,7 +54,9 @@ class CartSessionManager {
     int dishQuantity = ITEMS_IN_CART.fold(
       0,
       (int previousValue, dishInCart) {
-        return dishInCart == dish ? previousValue + 1 : previousValue + 0;
+        return dishInCart.dishId == dish.dishId
+            ? previousValue + 1
+            : previousValue + 0;
       },
     );
     print("Quantity Of Dish Present In Cart ==> $dishQuantity.");
