@@ -122,7 +122,9 @@ class HomeFoodCard extends StatelessWidget {
                     ),
                 ],
               ),
-              AddToCartButton(),
+              AddToCartButton(
+                dish: dishDetails,
+              ),
             ],
           ),
           SizedBox(

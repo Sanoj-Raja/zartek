@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zartek/app/constants/app_colors.dart';
+import 'package:zartek/app/local_storage/cart_session_manger.dart';
+import 'package:zartek/app/models/get_foods_response.dart';
 
 class AddToCartButton extends StatelessWidget {
-  const AddToCartButton({Key? key}) : super(key: key);
+  final CategoryDishes dish;
+  AddToCartButton({
+    Key? key,
+    required this.dish,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +27,7 @@ class AddToCartButton extends StatelessWidget {
           children: [
             InkWell(
               onTap: () {
-                print('remove quantity');
+                CartSessionManager.deleteItemFromCart(dish);
               },
               child: Text(
                 '-',
@@ -32,7 +38,8 @@ class AddToCartButton extends StatelessWidget {
               ),
             ),
             Text(
-              '1',
+              CartSessionManager.getQuantityOfDishPresentInCart(dish)
+                  .toString(),
               style: Get.textTheme.headline2!.copyWith(
                 color: AppColors.white,
                 fontSize: 24,
@@ -40,7 +47,7 @@ class AddToCartButton extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                print('add quantity');
+                CartSessionManager.addItemToCart(dish);
               },
               child: Text(
                 '+',

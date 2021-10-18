@@ -63,7 +63,7 @@ class ApiHelper extends GetConnect with BaseApiHelper {
           '╟ Headers: ${request.headers}\n'
           '╟ Body: ${request.bodyBytes.map((event) => event.asMap().toString())}\n'
           '╟ Status Code: ${response.statusCode}\n'
-          '╟ Data: ${response.bodyString?.toString() ?? ''}'
+          // '╟ Data: ${response.bodyString?.toString() ?? ''}'
           '\n╚══════════════════════════ Response ══════════════════════════\n',
           wrapWidth: 1024,
         );

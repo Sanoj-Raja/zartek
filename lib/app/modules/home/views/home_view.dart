@@ -2,6 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zartek/app/constants/app_colors.dart';
+import 'package:zartek/app/local_storage/cart_session_manger.dart';
 import 'package:zartek/app/widgets/custom_drawer.dart';
 import '../controllers/home_controller.dart';
 import 'component/home_food_card.dart';
@@ -28,9 +29,9 @@ class HomeView extends GetView<HomeController> {
               animationType: BadgeAnimationType.slide,
               badgeContent: Obx(
                 () => Text(
-                  controller.itemInCart.value > 9
+                  ITEMS_IN_CART.length > 9
                       ? '9+'
-                      : controller.itemInCart.value.toString(),
+                      : ITEMS_IN_CART.length.toString(),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 12,

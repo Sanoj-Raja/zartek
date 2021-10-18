@@ -5,7 +5,6 @@ import 'package:zartek/app/services/api_helper.dart';
 
 class HomeController extends GetxController {
   RxInt selectedMenuCategory = 0.obs;
-  RxInt itemInCart = 1.obs;
   RxList<TableMenuList> tableMenuList = <TableMenuList>[].obs;
   final apiHelper = Get.find<ApiHelper>();
 

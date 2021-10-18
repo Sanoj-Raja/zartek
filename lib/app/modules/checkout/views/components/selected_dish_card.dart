@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zartek/app/constants/app_colors.dart';
 import 'package:zartek/app/constants/app_strings.dart';
-import 'package:zartek/app/widgets/add_to_cart_button.dart';
 import 'package:zartek/app/widgets/veg_indicator.dart';
 
 class SelectedDishCard extends StatelessWidget {
@@ -66,7 +65,7 @@ class SelectedDishCard extends StatelessWidget {
                   ),
                 ],
               ),
-              AddToCartButton(),
+              // AddToCartButton(),
             ],
           ),
           SizedBox(
