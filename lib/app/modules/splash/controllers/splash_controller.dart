@@ -17,7 +17,7 @@ class SplashController extends GetxController {
     CartSessionManager.getCart();
     Future.delayed(Duration(seconds: 2)).then(
       (_) {
-        Get.offNamed(Routes.HOME);
+        Get.offAndToNamed(Routes.HOME);
       },
     );
   }

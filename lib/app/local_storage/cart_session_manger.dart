@@ -24,25 +24,37 @@ class CartSessionManager {
 
   static Future<void> addItemToCart(CategoryDishes dish) async {
     ITEMS_IN_CART.add(dish);
-    cartStorage.write(cart, ITEMS_IN_CART);
+
+    List itemsInCart = [];
+    for (CategoryDishes item in ITEMS_IN_CART) {
+      itemsInCart.add(item.toJson());
+    }
+
+    cartStorage.write(cart, itemsInCart);
     print("Item added in Cart ==> $dish.");
   }
 
   static Future<void> deleteItemFromCart(CategoryDishes dish) async {
     ITEMS_IN_CART.remove(dish);
+
+    List itemsInCart = [];
+    for (CategoryDishes item in ITEMS_IN_CART) {
+      itemsInCart.add(item.toJson());
+    }
+
     cartStorage.write(cart, ITEMS_IN_CART);
     print("Item deleted from Cart ==> $dish.");
   }
 
   static int getQuantityOfDishPresentInCart(CategoryDishes dish) {
-    int quantityOfDishPresentInCart = ITEMS_IN_CART.fold(
+    int dishQuantity = ITEMS_IN_CART.fold(
       0,
       (int previousValue, dishInCart) {
         return dishInCart == dish ? previousValue + 1 : previousValue + 0;
       },
     );
-    print("Quantity Of Dish Present In Cart ==> $quantityOfDishPresentInCart.");
-    return quantityOfDishPresentInCart;
+    print("Quantity Of Dish Present In Cart ==> $dishQuantity.");
+    return dishQuantity;
   }
 
   static void clearSession() {

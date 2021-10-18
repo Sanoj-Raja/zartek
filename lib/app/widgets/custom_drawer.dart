@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zartek/app/constants/app_colors.dart';
 import 'package:zartek/app/constants/app_strings.dart';
+import 'package:zartek/app/local_storage/cart_session_manger.dart';
+import 'package:zartek/app/models/get_foods_response.dart';
 import 'package:zartek/app/routes/app_pages.dart';
 import 'package:zartek/app/widgets/image_box.dart';
 
@@ -63,7 +65,9 @@ class CustomDrawer extends StatelessWidget {
           ListTile(
             title: InkWell(
               onTap: () {
-                Get.offAndToNamed(Routes.SPLASH);
+                CartSessionManager.clearSession();
+                ITEMS_IN_CART.value = <CategoryDishes>[];
+                Get.offAllNamed(Routes.SPLASH);
               },
               child: Row(
                 children: [

@@ -144,9 +144,6 @@ class CategoryDishes {
     data['dish_Availability'] = this.dishAvailability;
     data['dish_Type'] = this.dishType;
     data['nexturl'] = this.nexturl;
-    if (this.addonCat != null) {
-      data['addonCat'] = this.addonCat!.map((v) => v.toJson()).toList();
-    }
     return data;
   }
 }
