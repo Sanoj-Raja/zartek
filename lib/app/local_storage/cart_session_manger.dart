@@ -18,7 +18,7 @@ class CartSessionManager {
         );
       }
     }
-    print("Cart  ==> $ITEMS_IN_CART.");
+    print("Items in Cart  ==> $ITEMS_IN_CART.");
     return ITEMS_IN_CART;
   }
 

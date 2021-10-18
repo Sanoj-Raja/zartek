@@ -37,12 +37,14 @@ class AddToCartButton extends StatelessWidget {
                 ),
               ),
             ),
-            Text(
-              CartSessionManager.getQuantityOfDishPresentInCart(dish)
-                  .toString(),
-              style: Get.textTheme.headline2!.copyWith(
-                color: AppColors.white,
-                fontSize: 24,
+            Obx(
+              () => Text(
+                CartSessionManager.getQuantityOfDishPresentInCart(dish)
+                    .toString(),
+                style: Get.textTheme.headline2!.copyWith(
+                  color: AppColors.white,
+                  fontSize: 24,
+                ),
               ),
             ),
             InkWell(
