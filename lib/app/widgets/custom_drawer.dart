@@ -5,6 +5,7 @@ import 'package:zartek/app/constants/app_strings.dart';
 import 'package:zartek/app/local_storage/cart_session_manger.dart';
 import 'package:zartek/app/models/get_foods_response.dart';
 import 'package:zartek/app/routes/app_pages.dart';
+import 'package:zartek/app/utils/authentication.dart';
 import 'package:zartek/app/widgets/image_box.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -67,7 +68,11 @@ class CustomDrawer extends StatelessWidget {
               onTap: () {
                 CartSessionManager.clearSession();
                 ITEMS_IN_CART.value = <CategoryDishes>[];
-                Get.offAllNamed(Routes.SPLASH);
+                Authentication.signOut().then(
+                  (_) {
+                    Get.offAllNamed(Routes.SPLASH);
+                  },
+                );
               },
               child: Row(
                 children: [

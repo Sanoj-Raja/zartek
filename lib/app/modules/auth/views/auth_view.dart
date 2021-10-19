@@ -22,7 +22,7 @@ class AuthView extends GetView<AuthController> {
               LargeButton(
                 buttonText: AppStrings.signInWithGoogle,
                 onPressed: 
-                 controller.signInWithGoogle,
+                 controller.googleSignIn,
                 isUpperCaseButtonText: false,
                 buttonLeftImage: AppImages.google,
                 fontSize: 20,
