@@ -8,6 +8,7 @@ class AppStrings {
   static const String orderPlacedSuccessfully = 'Order Placed Successfully.';
   static const String totalAmount = 'Total Amount';
   static const String inr = 'INR';
+  static const String id = 'ID';
   static const String calories = 'Calories';
   static const String customizationAvailable = 'Customization Available';
   static const String cartIsEmpty = 'Cart is Empty!';

@@ -6,12 +6,14 @@ class ImageBox extends StatelessWidget {
   final double imageContainerSize;
   final Color borderColor;
   final double? containerBorderWidth;
+  final bool isBoxCircular;
   const ImageBox({
     Key? key,
     required this.imageUrl,
     required this.imageContainerSize,
     required this.borderColor,
     this.containerBorderWidth,
+    this.isBoxCircular = false,
   }) : super(key: key);
 
   @override
@@ -20,7 +22,7 @@ class ImageBox extends StatelessWidget {
       height: imageContainerSize,
       width: imageContainerSize,
       decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
+        shape: isBoxCircular ? BoxShape.circle : BoxShape.rectangle,
         color: AppColors.darkBlue,
         border: Border.all(
           color: borderColor,

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:zartek/app/constants/app_colors.dart';
 import 'package:zartek/app/constants/app_strings.dart';
 import 'package:zartek/app/local_storage/cart_session_manger.dart';
+import 'package:zartek/app/local_storage/sessions.dart';
 import 'package:zartek/app/models/get_foods_response.dart';
 import 'package:zartek/app/routes/app_pages.dart';
 import 'package:zartek/app/utils/authentication.dart';
@@ -32,31 +33,40 @@ class CustomDrawer extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  ImageBox(
-                    imageUrl: '',
-                    imageContainerSize: 60,
-                    borderColor: Colors.transparent,
+                  Obx(
+                    () => ImageBox(
+                      imageUrl: USER_DETAILS.value.userImage ?? '',
+                      imageContainerSize: 60,
+                      borderColor: Colors.transparent,
+                      isBoxCircular: true,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                       width: Get.width * .4,
-                      child: Text(
-                        'Sanoj Raja',
-                        style: Get.textTheme.headline2,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
+                      child: Obx(
+                        () => Text(
+                          USER_DETAILS.value.name ??
+                              (USER_DETAILS.value.phoneNumber ?? ''),
+                          style: Get.textTheme.headline2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                   ),
                   Container(
                     width: Get.width * .3,
-                    child: Text(
-                      'ID: 291',
-                      style: Get.textTheme.headline3!
-                          .copyWith(color: AppColors.black),
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
+                    child: Obx(
+                      () => Text(
+                        '${AppStrings.id}: ${USER_DETAILS.value.userId?.substring(0, 3) ?? ''}',
+                        style: Get.textTheme.headline3!.copyWith(
+                          color: AppColors.black,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 ],
