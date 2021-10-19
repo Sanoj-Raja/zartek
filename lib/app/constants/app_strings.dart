@@ -13,4 +13,6 @@ class AppStrings {
   static const String cartIsEmpty = 'Cart is Empty!';
   static const String addItemInCart =
       'Please add dishes in cart to place order!';
+  static const String signInWithGoogle = 'Sign In with Google';
+  static const String signInWithPhone = 'Sign In with Phone';
 }

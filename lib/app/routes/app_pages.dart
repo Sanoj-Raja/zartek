@@ -1,13 +1,11 @@
 import 'package:get/get.dart';
 
+import 'package:zartek/app/modules/auth/bindings/auth_binding.dart';
+import 'package:zartek/app/modules/auth/views/auth_view.dart';
 import 'package:zartek/app/modules/checkout/bindings/checkout_binding.dart';
 import 'package:zartek/app/modules/checkout/views/checkout_view.dart';
 import 'package:zartek/app/modules/home/bindings/home_binding.dart';
 import 'package:zartek/app/modules/home/views/home_view.dart';
-import 'package:zartek/app/modules/login/bindings/login_binding.dart';
-import 'package:zartek/app/modules/login/views/login_view.dart';
-import 'package:zartek/app/modules/register/bindings/register_binding.dart';
-import 'package:zartek/app/modules/register/views/register_view.dart';
 import 'package:zartek/app/modules/splash/bindings/splash_binding.dart';
 import 'package:zartek/app/modules/splash/views/splash_view.dart';
 
@@ -25,16 +23,6 @@ class AppPages {
       binding: HomeBinding(),
     ),
     GetPage(
-      name: _Paths.LOGIN,
-      page: () => LoginView(),
-      binding: LoginBinding(),
-    ),
-    GetPage(
-      name: _Paths.REGISTER,
-      page: () => RegisterView(),
-      binding: RegisterBinding(),
-    ),
-    GetPage(
       name: _Paths.SPLASH,
       page: () => SplashView(),
       binding: SplashBinding(),
@@ -43,6 +31,11 @@ class AppPages {
       name: _Paths.CHECKOUT,
       page: () => CheckoutView(),
       binding: CheckoutBinding(),
+    ),
+    GetPage(
+      name: _Paths.AUTH,
+      page: () => AuthView(),
+      binding: AuthBinding(),
     ),
   ];
 }

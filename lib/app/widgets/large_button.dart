@@ -7,7 +7,9 @@ class LargeButton extends StatelessWidget {
   final onPressed;
   final Color? buttonColor;
   final double? buttonHorizontalPadding;
+  final String? buttonLeftImage;
   final double height;
+  final bool isUpperCaseButtonText;
   final double fontSize;
 
   const LargeButton({
@@ -18,6 +20,8 @@ class LargeButton extends StatelessWidget {
     this.height = 55,
     this.fontSize = 17,
     this.buttonHorizontalPadding,
+    this.buttonLeftImage,
+    this.isUpperCaseButtonText = true,
   }) : super(key: key);
 
   @override
@@ -29,15 +33,49 @@ class LargeButton extends StatelessWidget {
       child: ElevatedButton(
         child: Container(
           height: height,
-          child: Center(
-            child: Text(
-              buttonText.toUpperCase(),
-              style: Get.textTheme.headline2!.copyWith(
-                color: AppColors.white,
-                fontSize: fontSize,
-              ),
-            ),
-          ),
+          child: buttonLeftImage == null
+              ? Center(
+                  child: Text(
+                    isUpperCaseButtonText
+                        ? buttonText.toUpperCase()
+                        : buttonText,
+                    style: Get.textTheme.headline2!.copyWith(
+                      color: AppColors.white,
+                      fontSize: fontSize,
+                    ),
+                  ),
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Container(
+                        height: height * .6,
+                        width: height * .6,
+                        child: Image.asset(
+                          buttonLeftImage!,
+                        ),
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            isUpperCaseButtonText
+                                ? buttonText.toUpperCase()
+                                : buttonText,
+                            style: Get.textTheme.headline2!.copyWith(
+                              color: AppColors.white,
+                              fontSize: fontSize,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: height * .6,
+                        width: height * .6,
+                      ),
+                    ],
+                  ),
+                ),
         ),
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
