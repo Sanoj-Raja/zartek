@@ -50,8 +50,8 @@ class LargeButton extends StatelessWidget {
                   child: Row(
                     children: [
                       Container(
-                        height: height * .6,
-                        width: height * .6,
+                        height: height * .5,
+                        width: height * .5,
                         child: Image.asset(
                           buttonLeftImage!,
                         ),
@@ -70,8 +70,8 @@ class LargeButton extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        height: height * .6,
-                        width: height * .6,
+                        height: height * .5,
+                        width: height * .5,
                       ),
                     ],
                   ),
