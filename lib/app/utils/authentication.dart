@@ -2,8 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:zartek/app/constants/app_errors.dart';
+import 'package:zartek/app/routes/app_pages.dart';
 
-class Authentication {
+class GoolgleAuthentication {
   static Future<User?> signInWithGoogle() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
@@ -59,79 +60,69 @@ class Authentication {
       );
     }
   }
+}
 
-  Future<void> phoneSignIn({required String phoneNumber}) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? user;
+class PhoneAuthentication {
+  static final FirebaseAuth auth = FirebaseAuth.instance;
+  static RxString otpCode = ''.obs;
+  static RxString smsVerificationCode = ''.obs;
 
+  static Future<void> signInWithPhone({required String phoneNumber}) async {
     await auth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
-      verificationCompleted: _onVerificationCompleted,
-      verificationFailed: _onVerificationFailed,
-      codeSent: _onCodeSent,
-      codeAutoRetrievalTimeout: _onCodeTimeout,
+      verificationCompleted: onVerificationCompleted,
+      verificationFailed: onVerificationFailed,
+      codeSent: onCodeSent,
+      codeAutoRetrievalTimeout: onCodeAutoRetrievalTimeout,
     );
   }
 
-  _onVerificationCompleted(PhoneAuthCredential authCredential) async {
+  static onVerificationCompleted(PhoneAuthCredential authCredential) async {
     print("verification completed ${authCredential.smsCode}");
+    otpCode.value = authCredential.smsCode!;
     User? user = FirebaseAuth.instance.currentUser;
-    setState(() {
-      this.otpCode.text = authCredential.smsCode!;
-    });
+
     if (authCredential.smsCode != null) {
-      try {
-        UserCredential credential =
-            await user!.linkWithCredential(authCredential);
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'provider-already-linked') {
-          await _auth.signInWithCredential(authCredential);
-        }
-      }
-      setState(() {
-        isLoading = false;
-      });
-      Navigator.pushNamedAndRemoveUntil(
-          context, Constants.homeNavigate, (route) => false);
+      user!.linkWithCredential(authCredential).then((_) {
+        Get.offAndToNamed(Routes.HOME);
+      }).onError(
+        (FirebaseAuthException error, stackTrace) {
+          if (error.code == 'provider-already-linked') {
+            auth.signInWithCredential(authCredential).then((__) {
+              Get.offAndToNamed(Routes.HOME);
+            });
+          }
+        },
+      );
     }
   }
 
-  _onVerificationFailed(FirebaseAuthException exception) {
+  static onVerificationFailed(FirebaseAuthException exception) {
     if (exception.code == 'invalid-phone-number') {
-      showMessage("The phone number entered is invalid!");
+      Get.snackbar(
+        AppErrors.invalidPhoneNumber,
+        AppErrors.invalidPhoneNumberDetails,
+      );
+    } else {
+      Get.snackbar(
+        AppErrors.errorOccurred,
+        AppErrors.unknownErrorDetails,
+      );
     }
   }
 
-  _onCodeSent(String verificationId, int? forceResendingToken) {
-    this.verificationId = verificationId;
-    print(forceResendingToken);
+  static onCodeSent(String verificationId, int? forceResendingToken) {
+    // set the verification code so that we can use it to log the user in
+    smsVerificationCode.value = verificationId;
+    print('This is verification id ${smsVerificationCode.value}.');
+    print('This is force resending token $forceResendingToken.');
     print("code sent");
   }
 
-  _onCodeTimeout(String timeout) {
-    return null;
-  }
-
-  void showMessage(String errorMessage) {
-    showDialog(
-        context: context,
-        builder: (BuildContext builderContext) {
-          return AlertDialog(
-            title: Text("Error"),
-            content: Text(errorMessage),
-            actions: [
-              TextButton(
-                child: Text("Ok"),
-                onPressed: () async {
-                  Navigator.of(builderContext).pop();
-                },
-              )
-            ],
-          );
-        }).then((value) {
-      setState(() {
-        isLoading = false;
-      });
-    });
+  static onCodeAutoRetrievalTimeout(String verificationId) {
+    // set the verification code so that we can use it to log the user in
+    smsVerificationCode.value = verificationId;
+    print('This is verification id ${smsVerificationCode.value}.');
+    print("Code AutoRetrieval Timeout.");
   }
 }

@@ -22,7 +22,7 @@ class AuthController extends GetxController {
   void onClose() {}
 
   void googleSignIn() {
-    Authentication.signInWithGoogle().then(
+    GoolgleAuthentication.signInWithGoogle().then(
       (user) {
         if (user != null) {
           USER_DETAILS.value = UserDetails(
@@ -36,5 +36,9 @@ class AuthController extends GetxController {
         }
       },
     );
+  }
+
+  void goToPhoneSignIn() {
+    print('Go to sign with phone page.');
   }
 }

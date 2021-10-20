@@ -30,9 +30,7 @@ class AuthView extends GetView<AuthController> {
               SizedBox(height: 15),
               LargeButton(
                 buttonText: AppStrings.signInWithPhone,
-                onPressed: () {
-                  print('Phone sign in pressed.');
-                },
+                onPressed: controller.goToPhoneSignIn,
                 isUpperCaseButtonText: false,
                 buttonColor: AppColors.lightBlue,
                 buttonLeftImage: AppImages.phone,

@@ -28,4 +28,7 @@ class AppErrors {
   static const String invalidCredentials = 'Invalid Credentials!';
   static const String invalidCredentialsDetails =
       'Error occurred while accessing credentials. Try again.';
+
+  static const String invalidPhoneNumber = 'Invalid Phone Number!';
+  static const String invalidPhoneNumberDetails = 'Please enter a valid phone number!';
 }
