@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zartek/app/constants/app_assest.dart';
+import 'package:zartek/app/routes/app_pages.dart';
 
 class PhoneLoginController extends GetxController {
   final logo = AppImages.logo;
   final TextEditingController phoneController = TextEditingController();
-  final GlobalKey loginFormKey = GlobalKey<FormState>();
+  final loginFormKey = GlobalKey<FormState>();
 
   @override
   void onInit() {
@@ -20,5 +21,12 @@ class PhoneLoginController extends GetxController {
   @override
   void onClose() {}
 
-  void sendOtp() {}
+  void sendOtp() {
+    if (loginFormKey.currentState!.validate()) {
+      Get.toNamed(
+        Routes.OTP,
+        arguments: {'phoneNumber': phoneController.text},
+      );
+    }
+  }
 }

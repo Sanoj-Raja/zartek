@@ -21,4 +21,5 @@ class AppStrings {
   static const String signInWithPhone = 'Sign In with Phone';
   static const String welcomeContinueWithPhone =
       'Welcome!\nPlease continue with your phone number.';
+  static const String verifyOtp = 'Verify OTP';
 }
