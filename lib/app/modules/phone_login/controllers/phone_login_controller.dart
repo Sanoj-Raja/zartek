@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zartek/app/constants/app_assest.dart';
-import 'package:zartek/app/routes/app_pages.dart';
+import 'package:zartek/app/utils/authentication.dart';
 
 class PhoneLoginController extends GetxController {
   final logo = AppImages.logo;
@@ -23,9 +23,8 @@ class PhoneLoginController extends GetxController {
 
   void sendOtp() {
     if (loginFormKey.currentState!.validate()) {
-      Get.toNamed(
-        Routes.OTP,
-        arguments: {'phoneNumber': phoneController.text},
+      PhoneAuthentication.signInWithPhone(
+        phoneNumber: '+91${phoneController.text}',
       );
     }
   }

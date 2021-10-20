@@ -22,6 +22,8 @@ class OtpController extends GetxController {
   void onClose() {}
 
   void verifyOtp() {
-    print('Verify clicked.');
+    if (formKey.currentState!.validate()) {
+      print('Verify clicked.');
+    }
   }
 }

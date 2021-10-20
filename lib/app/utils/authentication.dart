@@ -17,14 +17,14 @@ class GoolgleAuthentication {
       final GoogleSignInAuthentication googleSignInAuthentication =
           await googleSignInAccount.authentication;
 
-      final AuthCredential credential = GoogleAuthProvider.credential(
+      final AuthCredential authCredential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuthentication.accessToken,
         idToken: googleSignInAuthentication.idToken,
       );
 
       try {
         final UserCredential userCredential =
-            await auth.signInWithCredential(credential);
+            await auth.signInWithCredential(authCredential);
 
         user = userCredential.user;
       } on FirebaseAuthException catch (e) {
@@ -72,26 +72,21 @@ class PhoneAuthentication {
       phoneNumber: phoneNumber,
       verificationCompleted: onVerificationCompleted,
       verificationFailed: onVerificationFailed,
-      codeSent: onCodeSent,
+      codeSent: (String verificationId, int? forceResendingToken) {
+        onCodeSent(verificationId, forceResendingToken, phoneNumber);
+      },
       codeAutoRetrievalTimeout: onCodeAutoRetrievalTimeout,
     );
   }
 
-  static onVerificationCompleted(PhoneAuthCredential authCredential) async {
+  static onVerificationCompleted(PhoneAuthCredential authCredential) {
     print("verification completed ${authCredential.smsCode}");
     otpCode.value = authCredential.smsCode!;
-    User? user = FirebaseAuth.instance.currentUser;
 
     if (authCredential.smsCode != null) {
-      user!.linkWithCredential(authCredential).then((_) {
-        Get.offAndToNamed(Routes.HOME);
-      }).onError(
-        (FirebaseAuthException error, stackTrace) {
-          if (error.code == 'provider-already-linked') {
-            auth.signInWithCredential(authCredential).then((__) {
-              Get.offAndToNamed(Routes.HOME);
-            });
-          }
+      auth.signInWithCredential(authCredential).then(
+        (__) {
+          Get.offAndToNamed(Routes.HOME);
         },
       );
     }
@@ -111,7 +106,15 @@ class PhoneAuthentication {
     }
   }
 
-  static onCodeSent(String verificationId, int? forceResendingToken) {
+  static onCodeSent(
+    String verificationId,
+    int? forceResendingToken,
+    String phoneNumber,
+  ) {
+    Get.toNamed(
+      Routes.OTP,
+      arguments: {'phoneNumber': phoneNumber},
+    );
     // set the verification code so that we can use it to log the user in
     smsVerificationCode.value = verificationId;
     print('This is verification id ${smsVerificationCode.value}.');
