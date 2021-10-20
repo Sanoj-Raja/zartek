@@ -1,5 +1,7 @@
 class AppErrors {
   static const String nothingFound = 'Nothing found!';
+  static const String phoneNumberTextError = 
+  'Please enter correct phone number!';
 
   static const String errorOccurred = 'Error Occurred.';
   static const String unknownErrorDetails =

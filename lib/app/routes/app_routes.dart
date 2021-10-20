@@ -8,6 +8,8 @@ abstract class Routes {
   static const SPLASH = _Paths.SPLASH;
   static const CHECKOUT = _Paths.CHECKOUT;
   static const AUTH = _Paths.AUTH;
+  static const OTP = _Paths.OTP;
+  static const PHONE_LOGIN = _Paths.PHONE_LOGIN;
 }
 
 abstract class _Paths {
@@ -15,4 +17,6 @@ abstract class _Paths {
   static const SPLASH = '/splash';
   static const CHECKOUT = '/checkout';
   static const AUTH = '/auth';
+  static const OTP = '/otp';
+  static const PHONE_LOGIN = '/phone-login';
 }

@@ -39,6 +39,6 @@ class AuthController extends GetxController {
   }
 
   void goToPhoneSignIn() {
-    print('Go to sign with phone page.');
+    Get.toNamed(Routes.PHONE_LOGIN);
   }
 }
