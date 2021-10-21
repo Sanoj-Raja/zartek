@@ -18,15 +18,39 @@ class CheckoutController extends GetxController {
   @override
   void onClose() {}
 
-  void orderPlaced() {
-    if(ITEMS_IN_CART.length > 0) {
-    CartSessionManager.clearSession();
-    ITEMS_IN_CART.value = <CategoryDishes>[];
-    BotToast.showText(text: AppStrings.orderPlacedSuccessfully);
-    Get.back();
+  List<String> getUniqueItemIdList() {
+    RxList<String> uniqueItemIdList = <String>[].obs;
+    for (CategoryDishes ITEM in ITEMS_IN_CART) {
+      if (!uniqueItemIdList.contains(ITEM.dishId)) {
+        uniqueItemIdList.add(ITEM.dishId!);
+      }
     }
-    else {
-      Get.snackbar(AppStrings.cartIsEmpty, AppStrings.addItemInCart,);
+    return uniqueItemIdList;
+  }
+
+  CategoryDishes getDishById(String dishId) {
+    Rx<CategoryDishes> dish = CategoryDishes().obs;
+    for (CategoryDishes item in ITEMS_IN_CART) {
+      if (item.dishId == dishId) {
+        dish.value = item;
+        break;
+      }
+    }
+
+    return dish.value;
+  }
+
+  void orderPlaced() {
+    if (ITEMS_IN_CART.length > 0) {
+      CartSessionManager.clearSession();
+      ITEMS_IN_CART.value = <CategoryDishes>[];
+      BotToast.showText(text: AppStrings.orderPlacedSuccessfully);
+      Get.back();
+    } else {
+      Get.snackbar(
+        AppStrings.cartIsEmpty,
+        AppStrings.addItemInCart,
+      );
     }
   }
 }
