@@ -78,7 +78,7 @@ class CustomDrawer extends StatelessWidget {
               onTap: () {
                 CartSessionManager.clearSession();
                 ITEMS_IN_CART.value = <CategoryDishes>[];
-                GoolgleAuthentication.signOut().then(
+                Authentication.signOut().then(
                   (_) {
                     Get.offAllNamed(Routes.SPLASH);
                   },

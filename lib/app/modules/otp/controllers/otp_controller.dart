@@ -7,7 +7,6 @@ import 'package:zartek/app/utils/authentication.dart';
 class OtpController extends GetxController {
   final phone = Get.arguments['phoneNumber'];
   final verificationId = Get.arguments['verificationId'];
-  static final FirebaseAuth auth = FirebaseAuth.instance;
   final formKey = GlobalKey<FormState>();
   final logo = AppImages.logo;
   final otpTextController = TextEditingController();
@@ -31,7 +30,7 @@ class OtpController extends GetxController {
         verificationId: verificationId,
         smsCode: otpTextController.text,
       );
-      loginWithCredential(authCredential, auth);
+      Authentication.loginWithCredential(authCredential);
     }
   }
 }

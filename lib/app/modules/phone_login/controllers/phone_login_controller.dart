@@ -23,7 +23,7 @@ class PhoneLoginController extends GetxController {
 
   void sendOtp() {
     if (loginFormKey.currentState!.validate()) {
-      PhoneAuthentication.signInWithPhone(
+      Authentication.signInWithPhone(
         phoneNumber: '+91${phoneController.text}',
       );
     }

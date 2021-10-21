@@ -20,7 +20,7 @@ class AuthController extends GetxController {
   void onClose() {}
 
   void googleSignIn() {
-    GoolgleAuthentication.signInWithGoogle();
+    Authentication.signInWithGoogle();
   }
 
   void goToPhoneSignIn() {
