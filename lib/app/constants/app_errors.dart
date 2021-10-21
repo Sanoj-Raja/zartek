@@ -23,9 +23,9 @@ class AppErrors {
   static const String accountAlreadyExistsErrorDetails =
       'Account already exists with a different credential.';
 
-  static const String signInError = 'Google Sign-In Error!';
+  static const String signInError = 'Sign-In Error!';
   static const String signInErrorDetails =
-      'Error occurred using Google Sign-In. Try again.';
+      'Error occurred while Sign-In. Try again.';
 
   static const String invalidCredentials = 'Invalid Credentials!';
   static const String invalidCredentialsDetails =

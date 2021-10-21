@@ -2,13 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:zartek/app/constants/app_errors.dart';
+import 'package:zartek/app/local_storage/sessions.dart';
+import 'package:zartek/app/models/user_details_model.dart';
 import 'package:zartek/app/routes/app_pages.dart';
 
 class GoolgleAuthentication {
-  static Future<User?> signInWithGoogle() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? user;
+  static final FirebaseAuth auth = FirebaseAuth.instance;
 
+  static void signInWithGoogle() async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final GoogleSignInAccount? googleSignInAccount =
         await googleSignIn.signIn();
@@ -22,32 +23,8 @@ class GoolgleAuthentication {
         idToken: googleSignInAuthentication.idToken,
       );
 
-      try {
-        final UserCredential userCredential =
-            await auth.signInWithCredential(authCredential);
-
-        user = userCredential.user;
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'account-exists-with-different-credential') {
-          Get.snackbar(
-            AppErrors.accountAlreadyExistsError,
-            AppErrors.accountAlreadyExistsErrorDetails,
-          );
-        } else if (e.code == 'invalid-credential') {
-          Get.snackbar(
-            AppErrors.invalidCredentials,
-            AppErrors.invalidCredentialsDetails,
-          );
-        }
-      } catch (e) {
-        Get.snackbar(
-          AppErrors.signInError,
-          AppErrors.signInErrorDetails,
-        );
-      }
+      loginWithCredential(authCredential, auth);
     }
-
-    return user;
   }
 
   static Future<void> signOut() async {
@@ -64,8 +41,6 @@ class GoolgleAuthentication {
 
 class PhoneAuthentication {
   static final FirebaseAuth auth = FirebaseAuth.instance;
-  static RxString otpCode = ''.obs;
-  static RxString smsVerificationCode = ''.obs;
 
   static Future<void> signInWithPhone({required String phoneNumber}) async {
     await auth.verifyPhoneNumber(
@@ -73,7 +48,7 @@ class PhoneAuthentication {
       verificationCompleted: onVerificationCompleted,
       verificationFailed: onVerificationFailed,
       codeSent: (String verificationId, int? forceResendingToken) {
-        onCodeSent(verificationId, forceResendingToken, phoneNumber);
+        onCodeSent(verificationId, phoneNumber);
       },
       codeAutoRetrievalTimeout: onCodeAutoRetrievalTimeout,
     );
@@ -81,15 +56,7 @@ class PhoneAuthentication {
 
   static onVerificationCompleted(PhoneAuthCredential authCredential) {
     print("verification completed ${authCredential.smsCode}");
-    otpCode.value = authCredential.smsCode!;
-
-    if (authCredential.smsCode != null) {
-      auth.signInWithCredential(authCredential).then(
-        (__) {
-          Get.offAndToNamed(Routes.HOME);
-        },
-      );
-    }
+    loginWithCredential(authCredential, auth);
   }
 
   static onVerificationFailed(FirebaseAuthException exception) {
@@ -106,26 +73,49 @@ class PhoneAuthentication {
     }
   }
 
-  static onCodeSent(
-    String verificationId,
-    int? forceResendingToken,
-    String phoneNumber,
-  ) {
+  static onCodeSent(String verificationId, String phoneNumber) {
     Get.toNamed(
       Routes.OTP,
-      arguments: {'phoneNumber': phoneNumber},
+      arguments: {'phoneNumber': phoneNumber, 'verificationId': verificationId},
     );
-    // set the verification code so that we can use it to log the user in
-    smsVerificationCode.value = verificationId;
-    print('This is verification id ${smsVerificationCode.value}.');
-    print('This is force resending token $forceResendingToken.');
+
     print("code sent");
   }
 
   static onCodeAutoRetrievalTimeout(String verificationId) {
-    // set the verification code so that we can use it to log the user in
-    smsVerificationCode.value = verificationId;
-    print('This is verification id ${smsVerificationCode.value}.');
     print("Code AutoRetrieval Timeout.");
+  }
+}
+
+void loginWithCredential(AuthCredential authCredential, FirebaseAuth auth) {
+  try {
+    auth.signInWithCredential(authCredential).then(
+      (userCredential) {
+        USER_DETAILS.value = UserDetails(
+          name: userCredential.user?.displayName,
+          userId: userCredential.user?.uid,
+          phoneNumber: userCredential.user?.phoneNumber,
+          userImage: userCredential.user?.photoURL,
+        );
+        Get.offAndToNamed(Routes.HOME);
+      },
+    );
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'account-exists-with-different-credential') {
+      Get.snackbar(
+        AppErrors.accountAlreadyExistsError,
+        AppErrors.accountAlreadyExistsErrorDetails,
+      );
+    } else if (e.code == 'invalid-credential') {
+      Get.snackbar(
+        AppErrors.invalidCredentials,
+        AppErrors.invalidCredentialsDetails,
+      );
+    }
+  } catch (e) {
+    Get.snackbar(
+      AppErrors.signInError,
+      AppErrors.signInErrorDetails,
+    );
   }
 }
