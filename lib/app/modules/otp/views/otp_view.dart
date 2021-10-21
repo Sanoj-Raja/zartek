@@ -38,7 +38,7 @@ class OtpView extends GetView<OtpController> {
                   height: 20,
                 ),
                 Text(
-                  'We have sent a 4 digit OTP\nto ${controller.phone}.',
+                  'We have sent a 6 digit OTP\nto ${controller.phone}.',
                   style: Get.textTheme.headline2,
                 ),
                 Padding(
@@ -51,13 +51,13 @@ class OtpView extends GetView<OtpController> {
                       pastedTextStyle: TextStyle(
                         color: AppColors.lightBlue,
                       ),
-                      length: 4,
+                      length: 6,
                       obscureText: true,
                       obscuringCharacter: '*',
                       animationType: AnimationType.fade,
                       validator: (v) {
-                        if (v!.length == 3) {
-                          return 'OTP must be a 4 digit number only.';
+                        if (v!.length < 6) {
+                          return 'OTP must be a 6 digit number only.';
                         } else {
                           return null;
                         }
